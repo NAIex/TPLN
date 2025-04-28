@@ -1,0 +1,53 @@
+/* src/components/Navbar.css */
+
+.navbar {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+  box-shadow: 0px 0px 0px 0px;
+  border-bottom: 0px;
+}
+
+.navbar > * {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.navbar-brand {
+  padding: 0.5em;
+  cursor: pointer; /* Make it clear it's clickable */
+}
+
+.navbar-nav {
+  margin-left: auto; /* Align items to the right */
+}
+
+.navbar-button {
+  padding: 0.5em;
+}
+
+.logo {
+  position: relative; /* Position relative for the tooltip */
+}
+
+.logo::after {
+  content: "Go Home"; /* Text to display on hover */
+  position: absolute;
+  top: 50%; /* Center vertically */
+  left: 100%; /* Position to the right of the logo */
+  transform: translateY(-50%) translateX(-30px); /* Adjust to center vertically and add initial offset */
+  opacity: 0; /* Start hidden */
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition for opacity and position */
+  color: black; /* Text color */
+  padding: 0.5em;
+  border-radius: 4px;
+  white-space: nowrap; /* Prevent text from wrapping */
+  z-index: 1001; /* Ensure it appears above other elements */
+}
+
+.logo:hover::after {
+  opacity: 1; /* Fully visible */
+  transform: translateY(-50%) translateX(0); /* Move to original position */
+}

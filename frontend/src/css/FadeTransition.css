@@ -1,0 +1,7 @@
+.fade-wrapper-active {
+    opacity: 1;
+    transition: opacity 1.5s ease; /* Smooth transition for opacity */
+}
+.fade-wrapper-inactive {
+    opacity: 0;
+}
