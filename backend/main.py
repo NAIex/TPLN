@@ -1,14 +1,12 @@
 from flask import Flask
 
-from classes.Questionnaire import Questionnaire
+from classes import Gender
 from classes.questions.data import questions_by_subscale
-from classes.Gender import Gender
 
 app = Flask(__name__)
-questionnaire = Questionnaire(questions_by_subscale,Gender.M)
 questions = []
-for _, question_pack in questionnaire.questions_by_subscale.items():
-    questions = questions.__add__(question_pack)
+for _, question_pack in questions_by_subscale.items():
+    questions += question_pack
 
 
 @app.route("/")
@@ -18,22 +16,22 @@ def hello_world():
 
 @app.route('/start')
 def start():
+    gender = Gender.M
     
-    start_questions = []
-
-    start_questions.append(questionnaire.questions_by_subscale['Tulburare depresivă majoră'][0].text)
-    start_questions.append(questionnaire.questions_by_subscale['Tulburare de stres posttraumatic'][4].text)
-    start_questions.append(questionnaire.questions_by_subscale['Bulimie/Alimentație compulsivă'][1].text)
-    start_questions.append(questionnaire.questions_by_subscale['Tulburare obsesiv-compulsivă'][2].text)
-    start_questions.append(questionnaire.questions_by_subscale['Tulburare de panică'][3].text)
-    start_questions.append(questionnaire.questions_by_subscale['Tulburări psihotice'][0].text)
-    start_questions.append(questionnaire.questions_by_subscale['Agorafobie'][0].text)
-    start_questions.append(questionnaire.questions_by_subscale['Fobie socială'][3].text)
-    start_questions.append(questionnaire.questions_by_subscale['Abuz/dependență de alcool'][4].text)
-    start_questions.append(questionnaire.questions_by_subscale['Abuz/dependență de medicamente'][4].text)
-    start_questions.append(questionnaire.questions_by_subscale['Tulburare de anxietate generalizată'][3].text)
-    start_questions.append(questionnaire.questions_by_subscale['Tulburare de somatizare'][0].text)
-    start_questions.append(questionnaire.questions_by_subscale['Ipohondrie'][3].text)
-
+    start_questions = [e.text(gender) for e in [
+        questions_by_subscale['Tulburare depresivă majoră'][0],
+        questions_by_subscale['Tulburare de stres posttraumatic'][4],
+        questions_by_subscale['Bulimie/Alimentație compulsivă'][1],
+        questions_by_subscale['Tulburare obsesiv-compulsivă'][2],
+        questions_by_subscale['Tulburare de panică'][3],
+        questions_by_subscale['Tulburări psihotice'][0],
+        questions_by_subscale['Agorafobie'][0],
+        questions_by_subscale['Fobie socială'][3],
+        questions_by_subscale['Abuz/dependență de alcool'][4],
+        questions_by_subscale['Abuz/dependență de medicamente'][4],
+        questions_by_subscale['Tulburare de anxietate generalizată'][3],
+        questions_by_subscale['Tulburare de somatizare'][0],
+        questions_by_subscale['Ipohondrie'][3],
+    ]]
 
     return start_questions
