@@ -22,6 +22,7 @@ class Question(ABC):
 	@property
 	def json(self) -> dict:
 		return {
+			'id': self.id,
 			'text': self.text(Gender.M),
 			'timeframe': self.timeframe.json,	
 			'is_critical': self.is_critical,
