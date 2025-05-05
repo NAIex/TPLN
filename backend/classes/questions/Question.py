@@ -26,3 +26,4 @@ class Question(ABC):
 			'timeframe': self.timeframe.json,	
 			'is_critical': self.is_critical,
 		}
+	

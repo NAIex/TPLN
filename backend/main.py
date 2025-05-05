@@ -5,7 +5,6 @@ from classes.questions.data import questions_by_subscale
 
 from flask_cors import CORS
 
-
 app = Flask(__name__)
 
 CORS(app)
