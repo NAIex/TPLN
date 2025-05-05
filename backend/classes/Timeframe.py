@@ -13,3 +13,11 @@ class Timeframe(enum.StrEnum):
 				return "În ultimele 2 săptămâni, " + text
 			case Timeframe.last_6_months:
 				return "În ultimele 6 luni, " + text
+
+	@property
+	def json(self) -> str:
+		match self:
+			case Timeframe.last_2_weeks:
+				return "last_2_weeks"
+			case Timeframe.last_6_months:
+				return "last_6_months"
