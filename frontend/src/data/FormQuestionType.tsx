@@ -10,9 +10,13 @@ export interface FormQuestionProps {
     isRequired: boolean;
     shortAnswer?: string;
     appear: boolean;
-    onTrigger?: () => void;
     trigger?: boolean;
     is_critical?: boolean;
+
+
+    onTrigger?: () => void;
+    onChangeText?: (text: string) => void;
+    onChangeBool?: (value: boolean) => void;
 }
 
 
@@ -22,8 +26,10 @@ export interface FormQuestionAnswer {
     text:string;
 }
 export interface FormQuestionObject{
-    answer: string|null;
+    text_answer: string|null;
+    bool_answer: boolean|null;
     is_critical:boolean;
     text:string;
+
 
 }

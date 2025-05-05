@@ -17,6 +17,22 @@ export const FormPage = () => {
 
   const [cookies, setCookie] = useCookies(['userStarted']);
 
+  const updateFormDataText = (index: number, value: string) => {
+    const formDataCopy = [...formData];
+    formDataCopy[index].text_answer = value;
+
+    console.log(formDataCopy[index].text_answer)
+    setFormData(formDataCopy);
+  }  
+  const updateFormDataBool = (index: number, value: boolean) => {
+    const formDataCopy = [...formData];
+    formDataCopy[index].bool_answer = value;
+
+    console.log(formDataCopy[index].bool_answer)
+
+    setFormData(formDataCopy);
+  }
+
   const changeForm = () => {
 
     setIsLoading(true);
@@ -84,6 +100,9 @@ export const FormPage = () => {
               appear={index <= visibleIndex}
               onTrigger={onTrigger} // Pass the onTrigger function
               data-testid={`question-${index}`} // Add a test ID for easier access
+
+              onChangeText={(text) => updateFormDataText(index, text)} // Update the text answer
+              onChangeBool={(value) => updateFormDataBool(index, value)} // Update the boolean answer
             />
           </Col>
         );

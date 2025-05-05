@@ -17,7 +17,7 @@ const FormQuestion = (props: FormQuestionProps) => {
 
   useEffect(() => {
     setIsVisible(props.appear);
-  }, [props.appear, location.key]);
+  }, [props.appear]);
 
   const getQuestionContent = () => {
     let questionContent;
@@ -29,7 +29,7 @@ const FormQuestion = (props: FormQuestionProps) => {
         if(props.is_critical){
           questionContent = (
             <Form.Group className="mt-3">
-            <Form.Control disabled={disabled} as="textarea" rows={3} placeholder="Detaliați puțin mai mult..." />
+            <Form.Control onChange={(event) =>props.onChangeText(event.target.value)} disabled={disabled} as="textarea" rows={3} placeholder="Detaliați puțin mai mult..."  />
           </Form.Group>
         );
       }
@@ -48,7 +48,7 @@ const FormQuestion = (props: FormQuestionProps) => {
               {props.description}
             </Card.Text>
             {props.type !== FormQuestionType.NONE && (
-              <FromQuestionCheck onTriggerFunction={setDisabled} onTriggerEvent={props.onTrigger} />
+              <FromQuestionCheck  onTriggerFunction={(value) => {setDisabled(value); props.onChangeBool(!value)}} onTriggerEvent={props.onTrigger} />
             )}
             {getQuestionContent()}
 

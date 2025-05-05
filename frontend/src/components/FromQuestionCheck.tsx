@@ -5,7 +5,7 @@ import { FaCheck } from 'react-icons/fa';
 
 import '../css/Slider.css'
 
-export const FromQuestionCheck = (props: { onTriggerFunction: (value: boolean) => void, onTriggerEvent: () => void }) => {
+export const FromQuestionCheck = (props: {onTriggerFunction: (value: boolean) => void, onTriggerEvent: () => void }) => {
   const [isChecked, setIsChecked] = useState(-1); // -1 means nothing selected, 0 means false (X), 1 means true (checkmark)
   
   return (
