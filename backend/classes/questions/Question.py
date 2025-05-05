@@ -13,3 +13,12 @@ class Question(ABC):
 	@property
 	@abstractmethod
 	def is_critical(self) -> bool: pass
+
+	@property
+	def json(self) -> dict:
+		return {
+			'text': self.text(Gender.M),
+			'timeframe': self.timeframe.json,	
+			'is_critical': self.is_critical,
+		}
+	

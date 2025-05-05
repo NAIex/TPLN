@@ -1,6 +1,6 @@
 from classes.questions.Question import Question
 from classes.questions.MultipleChoiceQuestion import MultipleChoiceQuestion
-from backend.classes.questions.BinaryAnswerQuestion import BinaryAnswerQuestion
+from classes.questions.BinaryAnswerQuestion import BinaryAnswerQuestion
 from classes.questions.AnswerOption import AnswerOption
 
 from classes.Gender import Gender

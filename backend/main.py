@@ -1,9 +1,14 @@
 from flask import Flask
 
-from classes import Gender
+from classes.Gender import Gender
 from classes.questions.data import questions_by_subscale
 
+from flask_cors import CORS
+
 app = Flask(__name__)
+
+CORS(app)
+
 questions = []
 for _, question_pack in questions_by_subscale.items():
     questions += question_pack
@@ -18,7 +23,7 @@ def hello_world():
 def start():
     gender = Gender.M
     
-    start_questions = [e.text(gender) for e in [
+    start_questions = [e.json for e in [
         questions_by_subscale['Tulburare depresivă majoră'][0],
         questions_by_subscale['Tulburare de stres posttraumatic'][4],
         questions_by_subscale['Bulimie/Alimentație compulsivă'][1],
