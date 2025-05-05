@@ -4,34 +4,57 @@ import { FormQuestionType, FormQuestionObject } from '../data/FormQuestionType';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { apiGet } from '../utils/api';
+
+import { useCookies } from 'react-cookie';
+
 export const FormPage = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [visibleIndex, setVisibleIndex] = useState(0);
   const location = useLocation();
-  const [formData, setFormData] = useState(Array<FormQuestionObject>());
+  const [formData, setFormData] = useState(Array<FormQuestionObject>());  
+
+  const [cookies, setCookie] = useCookies(['userStarted']);
 
   const changeForm = () => {
 
     setIsLoading(true);
 
+    // send data to server
+    
     // pseudo delay
     setTimeout(() => {
       setIsLoading(false);
       navigate('/form');
+      window.location.reload();
     }, 1000);
   }
 
-  async function fetchData() {
+
+  const setFormCompletionDataAsCookie = () => {
+    
+  }
+
+  async function fetchStartData(){
     const data = await apiGet('start')
     setFormData(data.data)
     console.log(data)
   }
+  async function fetchData() {
+    const data = await apiGet('next-form')
+    setFormData(data.data)
+  }
 
   useEffect(() => {
     setVisibleIndex(0);
-    fetchData();
+    if (cookies.userStarted == false) {
+      setCookie('userStarted', true, { path: '/' });
+      fetchStartData();
+    }
+    else {
+      fetchData();
+    }
     
   },[location])
   return (

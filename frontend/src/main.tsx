@@ -5,8 +5,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './css/main.css'
 import App from './App.tsx'
 
+import { CookiesProvider } from 'react-cookie'
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <CookiesProvider>
+      <App />
+    </CookiesProvider>
   </StrictMode>,
 )

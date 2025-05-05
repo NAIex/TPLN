@@ -1,7 +1,18 @@
 import { Col, Row, Card, Container, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
+import { useCookies } from 'react-cookie';
+
 export const Disclaimer = () => {
+
+    const [cookies, setCookie] = useCookies(['userStarted']);
+
+    const startQuestionnaire = () => {
+        setCookie('userStarted', false, { path: '/' });
+        navigate('/form');
+    };
+
+
     const navigate = useNavigate();
   return (
     <>
@@ -48,7 +59,7 @@ export const Disclaimer = () => {
                         </Card>
                     </Col>
                 </Row>
-                <Button variant="dark" className="mt-4" onClick={() => navigate('/form')}>
+                <Button variant="dark" className="mt-4" onClick={() => startQuestionnaire()}>
                     Începe chestionarul.
                 </Button>
     </Container>

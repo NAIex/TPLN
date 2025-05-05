@@ -17,7 +17,7 @@ const FormQuestion = (props: FormQuestionProps) => {
 
   useEffect(() => {
     setIsVisible(props.appear);
-  }, [props.appear]);
+  }, [props.appear, location.key]);
 
   const getQuestionContent = () => {
     let questionContent;
