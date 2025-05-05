@@ -1,4 +1,4 @@
-const API_URL = 'https://your-api-url.com'; // Replace with your actual API URL
+const API_URL = 'http://127.0.0.1:5000/'; // Replace with your actual API URL
 
 export interface APIResponse<T = unknown> {
     success: boolean;

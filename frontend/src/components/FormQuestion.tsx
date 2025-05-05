@@ -26,11 +26,13 @@ const FormQuestion = (props: FormQuestionProps) => {
         questionContent = null;
         break;
       case 'SHORT_ANSWER':
-        questionContent = (
-          <Form.Group className="mt-3">
+        if(props.is_critical){
+          questionContent = (
+            <Form.Group className="mt-3">
             <Form.Control disabled={disabled} as="textarea" rows={3} placeholder="Detaliați puțin mai mult..." />
           </Form.Group>
         );
+      }
         break;
     }
     return questionContent;
