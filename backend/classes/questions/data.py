@@ -1,6 +1,6 @@
 from classes.questions.Question import Question
 from classes.questions.MultipleChoiceQuestion import MultipleChoiceQuestion
-from backend.classes.questions.BinaryAnswerQuestion import BinaryAnswerQuestion
+from classes.questions.BinaryAnswerQuestion import BinaryAnswerQuestion
 from classes.questions.AnswerOption import AnswerOption
 
 from classes.Gender import Gender
@@ -120,6 +120,13 @@ questions_by_subscale: dict[str, list[Question]] = {
 			{
 				Gender.F: "v-aţi simţit ca o ratată, aproape în fiecare zi?",
 				Gender.M: "v-aţi simţit ca un ratat, aproape în fiecare zi?",
+			},
+			Timeframe.last_2_weeks,
+		),
+		BinaryAnswerQuestion(
+			{
+				Gender.F: "aţi avut probleme de concentrare, aproape în fiecare zi?",
+				Gender.M: "aţi avut probleme de concentrare, aproape în fiecare zi?",
 			},
 			Timeframe.last_2_weeks,
 		),
