@@ -94,6 +94,4 @@ def fetch_diagnosis():
 
     pass
 
-for k in questions_by_subscale.keys(): print (k)
-
-print(select_next_subscale("nu vreau sa mor", {}))
+print(select_next_subscale("sunt foarte fericit", {}))
