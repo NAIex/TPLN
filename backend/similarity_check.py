@@ -1,6 +1,6 @@
 import spacy
 from sentence_transformers import SentenceTransformer, util
-input_sentence = "Am probleme cu mâncarea"
+input_sentence = "Am o obsesie cu mâncatul"
 
 
 psychiatric_templates = {
@@ -474,7 +474,7 @@ psychiatric_templates = {
 
 # print(f"Cea mai apropiată afecțiune: {best_match} (scor: {best_score:.2f})")
 
-model = SentenceTransformer('dumitrescustefan/bert-base-romanian-cased-v1')
+model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
 input_embedding = model.encode(input_sentence, convert_to_tensor=True)
 scores = {}
 
@@ -484,5 +484,6 @@ for disorder, phrases in psychiatric_templates.items():
     avg_score = cosine_scores.mean().item()
     scores[disorder] = avg_score
 sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
-top_disorder, top_score = sorted_scores[0]
-print(f"Cea mai probabilă afecțiune: {top_disorder} (Scor: {top_score:.4f})")
+for i in range(3):
+    top_disorder, top_score = sorted_scores[i]
+    print(f"{top_disorder} (Scor: {top_score:.4f})")
