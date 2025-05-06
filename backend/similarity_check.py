@@ -1,8 +1,6 @@
 import spacy
 from sentence_transformers import SentenceTransformer, util
-
-model = SentenceTransformer('dumitrescustefan/bert-base-romanian-cased-v1')
-input_sentence = "Am probleme cu mâncarea în ultima vreme"
+input_sentence = "Am probleme cu mâncarea"
 
 
 psychiatric_templates = {
@@ -476,6 +474,7 @@ psychiatric_templates = {
 
 # print(f"Cea mai apropiată afecțiune: {best_match} (scor: {best_score:.2f})")
 
+model = SentenceTransformer('dumitrescustefan/bert-base-romanian-cased-v1')
 input_embedding = model.encode(input_sentence, convert_to_tensor=True)
 scores = {}
 
