@@ -1,9 +1,10 @@
 from flask import Flask
-
+from flask import request
 from classes.Gender import Gender
 from classes.questions.data import questions_by_subscale
 
 from flask_cors import CORS
+
 
 app = Flask(__name__)
 
@@ -40,3 +41,56 @@ def start():
     ]]
 
     return start_questions
+
+
+@app.route('/determine-forms', methods=['POST'])
+def determine_forms():
+    """
+    Function meant for determining what forms the client will receive.
+    """
+
+    # implementation
+
+    #1. extracting data
+    data = request.form.get('text_data')
+
+    #2. similarity check with the data
+
+    #3. returning the keys of the 3 most similar diagnosis(ex: cutoff for scores < value)
+
+    # implementation
+
+
+    pass
+
+@app.route('/fetch-form', methods=['POST'])
+def fetch_form():
+    """
+    Function meant for fetching the next form based on the id sent by the client.
+    """
+
+    #1. extracting data
+    form_name = request.form.get('form_name')
+
+    #2. getting & returning the questions from the form
+
+    pass
+
+
+@app.route('/fetch-diagnosis', methods=['POST'])
+def fetch_diagnosis():
+    """
+    Function meant for sending user data to a LLM and returning this data back to the client.
+    """
+
+    #1. extracting data
+    client_data = request.form.get('questions_data')
+
+
+    #2. sending this data to external server
+
+
+    #3. getting answer and returning it to user
+
+    pass
+        
