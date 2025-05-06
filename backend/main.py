@@ -13,7 +13,23 @@ co = cohere.Client("8Fn0yGZ37F28qQpEHzvZuDU3ZQhNlXOVNEEE9VHP")
 
 CORS(app)
 
+@app.route('/start')
+def start(): return "lol" #I sincerely have no idea what the purpose of this is (maybe send the introductory question?)
 
+@app.route('/next-form')
+def next_form():
+    first_text = request.form.get("text_data", "") # should be assigned the value of the introductory text from the frontend
+    answers_by_subscale = request.form.get("questions_data", {}) # should be assigned the value of the form answers from the frontend
+    # the frontend form answers should look the following way:
+    # before completing any forms: {}
+    # completing only the suicide form: {"Tulburare depresivă majoră": {...}}
+    # completing the suicide form and the anxiety form: {"Tulburare depresivă majoră": {...}, "Tulburare de anxietate generalizată": {...}}
+    # i'm open to suggestions if you think this should change aka flatten the inner dictionaries like:
+    # before completing any forms: {}
+    # completing only the suicide form: {1: True, 2: True, 3: False, ...}
+    # completing the suicide form and the anxiety form: {1: True, 2: True, 3: False, ..., 92: "js pop a cig to mellow yourself", 93: False}
+    qs = questions_by_subscale[select_next_subscale(first_text, answers_by_subscale)]
+    return [q.json for q in qs]
 
 @app.route('/determine-forms', methods=['POST'])
 def determine_forms():
@@ -25,8 +41,6 @@ def determine_forms():
 
     #1. extracting data
     data = request.form.get('text_data')
-    print(request.form)
-    print(data)
 
     #2. similarity check with the data
 
