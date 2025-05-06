@@ -454,17 +454,21 @@ psychiatric_templates = {
     ]
 }
 model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
-input_embedding = model.encode(input_sentence, convert_to_tensor=True)
-scores = {}
 
-for disorder, phrases in psychiatric_templates.items():
-    embeddings = model.encode(phrases, convert_to_tensor=True, normalize_embeddings=True)
-    cosine_scores = util.cos_sim(input_embedding, embeddings)
-    avg_score = cosine_scores.mean().item()
-    scores[disorder] = avg_score
-sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
-# for i in range(3):
-#     top_disorder, top_score = sorted_scores[i]
-#     print(f"{top_disorder} (Scor: {top_score:.4f})")
-for disorder, score in sorted_scores:
-    print(f"{disorder} (Scor: {score:.4f})")
+def check_similarity(context):
+    global model
+    
+    input_embedding = model.encode(context, convert_to_tensor=True)
+    scores = {}
+    for disorder, phrases in psychiatric_templates.items():
+        embeddings = model.encode(phrases, convert_to_tensor=True, normalize_embeddings=True)
+        cosine_scores = util.cos_sim(input_embedding, embeddings)
+        avg_score = cosine_scores.mean().item()
+        scores[disorder] = avg_score
+    sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+    for disorder, score in sorted_scores:
+        print(f"{disorder} (Scor: {score:.4f})")
+
+
+    return sorted_scores[0][0]
+    
