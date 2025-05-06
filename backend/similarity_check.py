@@ -453,26 +453,6 @@ psychiatric_templates = {
         "Îmi monitorizez toate funcțiile corpului în detaliu"
     ]
 }
-# nlp = spacy.load("ro_core_news_lg")
-
-# input_doc = nlp(input_sentence)
-
-# best_match = None
-# best_score = 0.0
-
-# for disorder, templates in psychiatric_templates.items():
-#     similarities = []
-#     for phrase in templates:
-#         template_doc = nlp(phrase)
-#         score = input_doc.similarity(template_doc)
-#         similarities.append(score)
-#     avg_score = sum(similarities) / len(similarities)
-#     if avg_score > best_score:
-#         best_score = avg_score
-#         best_match = disorder
-
-# print(f"Cea mai apropiată afecțiune: {best_match} (scor: {best_score:.2f})")
-
 model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
 input_embedding = model.encode(input_sentence, convert_to_tensor=True)
 scores = {}
