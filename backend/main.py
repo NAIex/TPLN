@@ -1,6 +1,7 @@
 from flask import Flask, request
 from classes.Gender import Gender
 from classes.questions.data import questions_by_subscale
+from classes.SubscaleSelector import select_next_subscale
 
 from flask_cors import CORS
 
@@ -92,4 +93,6 @@ def fetch_diagnosis():
     #3. getting answer and returning it to user
 
     pass
-        
+
+print({k: {} for k, _ in list(questions_by_subscale.items())[:7]})
+print(select_next_subscale("", {k: {} for k, _ in list(questions_by_subscale.items())[:7]}))
