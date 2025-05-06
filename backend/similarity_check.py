@@ -1,7 +1,6 @@
 import spacy
 from sentence_transformers import SentenceTransformer, util
-input_sentence = "Am o obsesie cu mâncatul"
-
+input_sentence = "În ultima vreme mă simt tot mai copleșit de gânduri negative și de o stare constantă de anxietate. Am perioade în care nu reușesc să dorm bine, mă trezesc obosit și fără energie, iar concentrarea la muncă a devenit tot mai dificilă. Am început să evit interacțiunile sociale pentru că mă simt inconfortabil și mă gândesc că ceilalți mă judecă. În trecut am avut și atacuri de panică, mai ales în situații în care simțeam că nu am control. De asemenea, am observat că devin ușor iritabil și îmi pierd răbdarea cu cei apropiați. Mă gândesc tot mai des că ar trebui să cer ajutor, pentru că aceste lucruri mă afectează pe toate planurile – personal, profesional și în relația cu familia."
 
 psychiatric_templates = {
     "Tulburarea depresivă majoră": [
@@ -484,6 +483,8 @@ for disorder, phrases in psychiatric_templates.items():
     avg_score = cosine_scores.mean().item()
     scores[disorder] = avg_score
 sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
-for i in range(3):
-    top_disorder, top_score = sorted_scores[i]
-    print(f"{top_disorder} (Scor: {top_score:.4f})")
+# for i in range(3):
+#     top_disorder, top_score = sorted_scores[i]
+#     print(f"{top_disorder} (Scor: {top_score:.4f})")
+for disorder, score in sorted_scores:
+    print(f"{disorder} (Scor: {score:.4f})")
