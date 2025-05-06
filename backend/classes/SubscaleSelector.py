@@ -12,7 +12,7 @@ def select_next_subscale(first_text: str, answers: dict[str, dict[int, bool | li
         q: a for _, qs in answers.items() for q, a in qs.items() if isinstance(a, str)
     }
     subscales_to_exclude = list(filter(lambda k, v: len(v) > 0, answers))
-    weights = get_subscale_weights(texts)
+    weights = get_subscale_weights(texts, subscales_to_exclude)
     # for k, v in weights.items():
     #     print(f"{k} => {v}")
     return max(weights, key=weights.get)
