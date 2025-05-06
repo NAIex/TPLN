@@ -463,6 +463,7 @@ def select_next_subscale(first_text: str, answers_by_subscale: dict[str, dict[in
 	}
 	subscales_to_exclude = list(filter(lambda kvp: len(kvp[1]) > 0, answers_by_subscale))
 	weights_of_subscales = get_subscale_weights(texts, subscales_to_exclude)
+	if len(weights_of_subscales) == 0: return None
 	for k, v in weights_of_subscales.items():
 		print(f"{k} => {v}")
 	max_subscale = max(weights_of_subscales, key=weights_of_subscales.get)
