@@ -1,6 +1,5 @@
 import spacy
 from sentence_transformers import SentenceTransformer, util
-import torch
 input_sentence = "În ultima vreme mă simt tot mai copleșit de gânduri negative și de o stare constantă de anxietate. Am perioade în care nu reușesc să dorm bine, mă trezesc obosit și fără energie, iar concentrarea la muncă a devenit tot mai dificilă. Am început să evit interacțiunile sociale pentru că mă simt inconfortabil și mă gândesc că ceilalți mă judecă. În trecut am avut și atacuri de panică, mai ales în situații în care simțeam că nu am control. De asemenea, am observat că devin ușor iritabil și îmi pierd răbdarea cu cei apropiați. Mă gândesc tot mai des că ar trebui să cer ajutor, pentru că aceste lucruri mă afectează pe toate planurile – personal, profesional și în relația cu familia."
 
 psychiatric_templates = {
@@ -454,7 +453,6 @@ psychiatric_templates = {
         "Îmi monitorizez toate funcțiile corpului în detaliu"
     ]
 }
-
 model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
 input_embedding = model.encode(input_sentence, convert_to_tensor=True)
 scores = {}
@@ -462,8 +460,8 @@ scores = {}
 for disorder, phrases in psychiatric_templates.items():
     embeddings = model.encode(phrases, convert_to_tensor=True, normalize_embeddings=True)
     cosine_scores = util.cos_sim(input_embedding, embeddings)
-    max_score = torch.max(cosine_scores).item()
-    scores[disorder] = max_score
+    avg_score = cosine_scores.mean().item()
+    scores[disorder] = avg_score
 sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
 # for i in range(3):
 #     top_disorder, top_score = sorted_scores[i]
