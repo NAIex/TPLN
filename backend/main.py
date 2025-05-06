@@ -1,6 +1,7 @@
 from flask import Flask, request
 from classes.Gender import Gender
 from classes.questions.data import questions_by_subscale
+from classes.SubscaleSelector import select_next_subscale
 
 from flask_cors import CORS
 
@@ -565,6 +566,7 @@ def fetch_diagnosis():
     DETAIL WHY YOU'VE GIVEN THE ANSWER NU OR DA.
     ANSWER ONLY IN ROMANIAN.
 
+
     ## Possible Diagnosis
     {most_similar}
 
@@ -596,3 +598,10 @@ def fetch_diagnosis():
     #3. getting answer and returning it to user
     return [response.generations[0].text]
         
+
+    pass
+
+for k in questions_by_subscale.keys(): print (k)
+
+print(select_next_subscale("nu vreau sa mor", {}))
+
