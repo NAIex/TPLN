@@ -16,3 +16,9 @@ class MultipleChoiceQuestion(Question):
 	def score_contribution(self, answer: list[bool]) -> int: return self.__turn_answer_into_score(answer)
 	@property
 	def is_critical(self) -> bool: return False
+
+	@property
+	def json(self):
+		s = super().json
+		s["answer_options"] = list(map(lambda ao: ao.text(Gender.M), self.answer_options))
+		return s

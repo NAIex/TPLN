@@ -20,6 +20,7 @@ class Question(ABC):
 	def is_critical(self) -> bool: pass
 
 	@property
+	@abstractmethod
 	def json(self) -> dict:
 		return {
 			'id': self.id,

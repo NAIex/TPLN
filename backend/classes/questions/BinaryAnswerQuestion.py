@@ -11,3 +11,9 @@ class BinaryAnswerQuestion(Question):
 	def is_critical(self): return self.__is_critical
 	@property
 	def score_contribution(self, answer: bool) -> int: return 0 if answer == False else 1
+
+	@property
+	def json(self):
+		s = super().json
+		s["answer_options"] = ["yes", "no"]
+		return s

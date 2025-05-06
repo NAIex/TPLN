@@ -1,5 +1,4 @@
-from flask import Flask
-from flask import request
+from flask import Flask, request
 from classes.Gender import Gender
 from classes.questions.data import questions_by_subscale
 
