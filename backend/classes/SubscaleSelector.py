@@ -1,6 +1,7 @@
+from more_itertools import flatten
+
 from classes.questions.data import questions_by_subscale
 
-FIRST_TEXT_QUESTION: str = "Scrie câteva rânduri despre tine."
 THRESHOLD: float = 0.3
 
 from sentence_transformers import util
@@ -435,29 +436,24 @@ phrases_by_subscale = {
 
 phrases_emb_by_subscale = {k: model.encode(v, convert_to_tensor=True) for k, v in phrases_by_subscale.items()}
 
-def get_subscale_weights(texts: dict[str, str], excluded_subscales: list[str]) -> dict[str, float]:
-	inputs = "".join(f"{a}\n" for _, a in texts.items())
+def get_subscale_weights(texts: list[str], excluded_subscales: list[str]) -> dict[str, float]:
+	inputs = "".join(f"{text}\n" for text in texts)
 	input_emb = model.encode(inputs, convert_to_tensor=True)
 	scores = {}
 	for subscale, phrases_emb in phrases_emb_by_subscale.items():
 		if subscale in excluded_subscales: continue
 		cosine_scores = util.cos_sim(input_emb, phrases_emb)
 		avg_score = cosine_scores.mean().item()
-		if avg_score < THRESHOLD: continue
 		scores[subscale] = round(avg_score, 3)
 	return scores
 
-def select_next_subscale(first_text: str, answers_by_subscale: dict[str, dict[int, bool | list[bool] | str]]) -> str | None:
-	print(answers_by_subscale)
-	texts: dict[str, str] = {FIRST_TEXT_QUESTION: first_text} | {
-		q: a for _, qs in answers_by_subscale.items() for q, a in qs.items() if isinstance(a, str)
-	}
+def select_next_subscale(first_text: str, answers_by_subscale: dict[str, list[bool | list[bool] | str]]) -> str | None:
+	texts: list[str] = [first_text] + list(filter(lambda a: isinstance(a, str), flatten(answers_by_subscale.values())))
 	subscales_to_exclude = list(filter(lambda kvp: len(kvp[1]) > 0, answers_by_subscale))
 	weights_of_subscales = get_subscale_weights(texts, subscales_to_exclude)
-	if len(weights_of_subscales) == 0: return None
-
 	for k, v in sorted(weights_of_subscales.items(), key=lambda kvp: kvp[1], reverse=True):
-
 		print(f"{k} => {v}")
+	weights_of_subscales = dict(filter(lambda kvp: kvp[1] >= THRESHOLD, weights_of_subscales.items()))
+	if len(weights_of_subscales) == 0: return None
 	max_subscale = max(weights_of_subscales, key=weights_of_subscales.get)
 	return max_subscale if weights_of_subscales[max_subscale] >= THRESHOLD else None
