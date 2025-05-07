@@ -18,13 +18,14 @@ def get_subscale_weights(texts: dict[str, str], excluded_subscales: list[str]) -
 	return scores
 
 def select_next_subscale(first_text: str, answers_by_subscale: dict[str, dict[int, bool | list[bool] | str]]) -> str | None:
+	print(answers_by_subscale)
 	texts: dict[str, str] = {FIRST_TEXT_QUESTION: first_text} | {
 		q: a for _, qs in answers_by_subscale.items() for q, a in qs.items() if isinstance(a, str)
 	}
 	subscales_to_exclude = list(filter(lambda kvp: len(kvp[1]) > 0, answers_by_subscale))
 	weights_of_subscales = get_subscale_weights(texts, subscales_to_exclude)
 	if len(weights_of_subscales) == 0: return None
-	# for k, v in weights_of_subscales.items():
-	# 	print(f"{k} => {v}")
+	for k, v in weights_of_subscales.items():
+		print(f"{k} => {v}")
 	max_subscale = max(weights_of_subscales, key=weights_of_subscales.get)
 	return max_subscale if weights_of_subscales[max_subscale] >= THRESHOLD else None
