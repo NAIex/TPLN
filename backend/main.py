@@ -586,4 +586,4 @@ def fetch_diagnosis():
 
     pass
 
-# print(select_next_subscale("sunt foarte fericit", {}))
+print(select_next_subscale("Grija mă însoțește pretutindeni. Mintea mea rulează scenarii catastrofale de dimineață până seara. Mă îngrijorez pentru lucruri mărunte ca și cum ar fi probleme de viață și de moarte. Nu pot să mă relaxez. E o teamă difuză, constantă, care îmi scufundă fiecare zi într-o stare de tensiune.", {}))
