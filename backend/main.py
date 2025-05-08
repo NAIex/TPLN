@@ -6,7 +6,7 @@ from classes.SubscaleSelector import select_next_subscale
 from flask_cors import CORS
 
 import cohere
-from similarity_check import check_similarity
+from similarity_check import check_similarity, psychiatric_templates
 
 app = Flask(__name__)
 co = cohere.Client(open('key.txt','r').readline())
@@ -90,10 +90,10 @@ def fetch_diagnosis():
     """
 
     #1. extracting data
-    client_data = request.json.get('questions_data')
-    most_similar = check_similarity(client_data)
+    first_text = request.json.get("text_data", "") # should be assigned the value of the introductory text from the frontend
+    answers_by_subscale = request.json.get("questions_data", {}) # should be assigned the value of the form answers from the frontend
 
-    context = '\n'.join(psychiatric_templates[most_similar])
+    subscale = select_next_subscale(first_text, answers_by_subscale)
 
     prompt = f"""
 
@@ -107,13 +107,13 @@ def fetch_diagnosis():
 
 
     ## Possible Diagnosis
-    {most_similar}
-
+    {subscale}
+    
     ## Possible Feelings
-    {context}
+    {'\n'.join(psychiatric_templates[subscale])}
 
     ## Input Text
-    {client_data}
+    {first_text}
 
 
 """

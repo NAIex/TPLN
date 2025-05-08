@@ -448,7 +448,13 @@ def get_subscale_weights(texts: list[str], excluded_subscales: list[str]) -> dic
 	return scores
 
 def select_next_subscale(first_text: str, answers_by_subscale: dict[str, list[bool | list[bool] | str]]) -> str | None:
-	texts: list[str] = [first_text] + list(filter(lambda a: isinstance(a, str), flatten(answers_by_subscale.values())))
+
+	answers = list(answers_by_subscale.values())
+	flat = [list(d.values()) for d in answers]
+	print(flat)
+
+	texts: list[str] = [first_text] + list(filter(lambda a: isinstance(a, str), flatten(flat)))
+	print(texts)
 	subscales_to_exclude = list(filter(lambda kvp: len(kvp[1]) > 0, answers_by_subscale))
 	weights_of_subscales = get_subscale_weights(texts, subscales_to_exclude)
 	for k, v in sorted(weights_of_subscales.items(), key=lambda kvp: kvp[1], reverse=True):
