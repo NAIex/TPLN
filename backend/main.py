@@ -24,11 +24,11 @@ def next_form():
     # the frontend form answers should look the following way:
     # before completing any forms: {}
     # completing only the suicide form: {"Tulburare depresivă majoră": {...}}
-    # completing the suicide form and the anxiety form: {"Tulburare depresivă majoră": {...}, "Tulburare de anxietate generalizată": {...}}
+    # completing the suicide form and the anxiety form: {"Tulburare depresivă majoră": {1: True, 2: True, 3: False, ...}, "Tulburare de anxietate generalizată": {92: "js pop a cig to mellow yourself", 93: False, ...}}
     # i'm open to suggestions if you think this should change aka flatten the inner dictionaries like:
     # before completing any forms: {}
     # completing only the suicide form: {1: True, 2: True, 3: False, ...}
-    # completing the suicide form and the anxiety form: {1: True, 2: True, 3: False, ..., 92: "js pop a cig to mellow yourself", 93: False}
+    # completing the suicide form and the anxiety form: {1: True, 2: True, 3: False, ..., 92: "js pop a cig to mellow yourself", 93: False, ...}
     subscale = select_next_subscale(first_text, answers_by_subscale)
     qs = questions_by_subscale[subscale]
     return {"form_section":subscale, "items":[q.json for q in qs]}
@@ -136,4 +136,4 @@ def fetch_diagnosis():
 
     pass
 
-# print(select_next_subscale("sunt foarte fericit", {}))
+print(select_next_subscale("sunt foarte fericit", {}))

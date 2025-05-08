@@ -1,4 +1,3 @@
-import spacy
 from sentence_transformers import SentenceTransformer, util
 
 psychiatric_templates = {
