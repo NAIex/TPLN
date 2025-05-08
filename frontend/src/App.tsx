@@ -7,6 +7,7 @@ import { Navbar } from './components/Navbar';
 import { Disclaimer } from './pages/Disclaimer';
 import StartFormPage from './pages/StartFormPage';
 import { FormPageRevamped } from './pages/FormPageRevamped';
+import { FinalPage } from './pages/FinalPage';
 function App() {
   return (
     <Router>
@@ -17,6 +18,7 @@ function App() {
         <Route path="/form" element={<FormPageRevamped/>} />
         <Route path="/start-form" element={<StartFormPage />} />
         <Route path="/disclaimer" element={<Disclaimer />} />
+        <Route path="/final" element={<FinalPage />} />
       </Routes>
       </FadeWrapper>
     </Router>

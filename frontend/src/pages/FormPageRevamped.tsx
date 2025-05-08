@@ -52,15 +52,17 @@ export const FormPageRevamped = () => {
           let response = await sendForm(descriptionData, totalForm);
 
           setFormData(response);
+          if( Object.keys(response).length === 0){
+            setIsLoading(false);
+            navigate('/final');
+          }else{
 
-          console.log(response);
-        setIsLoading(false);
-        navigate('/form');
-        window.location.reload();
-
-          // pseudo delay
-        setTimeout(() => {
-        }, 1000);
+            
+            console.log(response);
+            setIsLoading(false);
+            navigate('/form');
+            window.location.reload();
+          }
     }
 
     useEffect(() => {
@@ -69,7 +71,7 @@ export const FormPageRevamped = () => {
         answer.form_section = formData?.form_section;
 
         formData.items.forEach(element => {
-            answer[element.id.toString()-1] = false;
+            answer[Number(element.id-1)] = false;
         });
         console.log(answer);
         setFormAnswer(answer);
