@@ -1,7 +1,7 @@
 from flask import Flask, request
 from classes.Gender import Gender
 from classes.questions.data import questions_by_subscale
-from classes.SubscaleSelector import select_next_subscale
+from classes.SubscaleSelector import select_next_subscale, get_subscale_weights
 
 from flask_cors import CORS
 
@@ -10,6 +10,8 @@ from similarity_check import check_similarity, psychiatric_templates
 
 app = Flask(__name__)
 co = cohere.Client(open('key.txt','r').readline())
+
+from more_itertools import flatten
 
 CORS(app)
 
@@ -93,11 +95,17 @@ def fetch_diagnosis():
     first_text = request.json.get("text_data", "") # should be assigned the value of the introductory text from the frontend
     answers_by_subscale = request.json.get("questions_data", {}) # should be assigned the value of the form answers from the frontend
 
-    subscale = select_next_subscale(first_text, answers_by_subscale)
+    answers = list(answers_by_subscale.values())
+    flat = flatten([list(d.values()) for d in answers])
+    texts: list[str] = [first_text] + list(filter(lambda a: isinstance(a, str), flat))
+
+    scores = get_subscale_weights(texts, [])
+
+
 
     prompt = f"""
 
-    ## Instructions
+    ## Instructions 
     Using the possible diagnosis, possible feelings and the input feelings determine if the user has the diagnosis or not.
     Start the response with Da or Nu, depending on if you think they need medical consulting or not.
 
@@ -106,14 +114,11 @@ def fetch_diagnosis():
     ANSWER ONLY IN ROMANIAN.
 
 
-    ## Possible Diagnosis
-    {subscale}
-    
-    ## Possible Feelings
-    {'\n'.join(psychiatric_templates[subscale])}
+    ## Possible Diagnosis with scores
+    {'\n'.join([f'{k}:{v}' for k, v in scores.items()])}
 
     ## Input Text
-    {first_text}
+    {'\n'.join(texts)}
 
 
 """
