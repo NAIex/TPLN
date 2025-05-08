@@ -30,8 +30,12 @@ def next_form():
     # completing only the suicide form: {1: True, 2: True, 3: False, ...}
     # completing the suicide form and the anxiety form: {1: True, 2: True, 3: False, ..., 92: "js pop a cig to mellow yourself", 93: False, ...}
     subscale = select_next_subscale(first_text, answers_by_subscale)
-    qs = questions_by_subscale[subscale]
-    return {"form_section":subscale, "items":[q.json for q in qs]}
+
+    if subscale == None:
+        return {}
+    else:
+        qs = questions_by_subscale[subscale]
+        return {"form_section":subscale, "items":[q.json for q in qs]}
 
 @app.route('/determine-forms', methods=['POST'])
 def determine_forms():
