@@ -4,6 +4,9 @@ export enum FormQuestionType {
 }
 export interface FormQuestionProps {
     id: number;
+    question_id: number;
+
+
     type: FormQuestionType;
     question?: string;
     description?: string;
@@ -30,6 +33,7 @@ export interface FormQuestionObject{
     bool_answer: boolean|null;
     is_critical:boolean;
     text:string;
+    id: number;
 
 
 }

@@ -15,7 +15,7 @@ export const FormPage = () => {
   const location = useLocation();
   const [formData, setFormData] = useState(Array<FormQuestionObject>());  
 
-  const [cookies, setCookie] = useCookies(['userStarted']);
+  const [cookies, setCookie] = useCookies(['userStarted','completedDataJSON',"form_names"]);
 
   const updateFormDataText = (index: number, value: string) => {
     const formDataCopy = [...formData];
@@ -34,10 +34,21 @@ export const FormPage = () => {
   }
 
   const changeForm = () => {
-
+    
     setIsLoading(true);
+    
+    let cookieList = cookies.form_names;
+    cookieList.pop();
+    setCookie('form_names',cookieList)
 
+    if(cookieList.length == 0)
+    {
+      navigate('/')
+      return;
+    }
+      
     // send data to server
+    setFormCompletionDataAsCookie();
     
     // pseudo delay
     setTimeout(() => {
@@ -49,7 +60,23 @@ export const FormPage = () => {
 
 
   const setFormCompletionDataAsCookie = () => {
-    
+    setCookie('completedDataJSON', JSON.stringify(formData.map((value) => [value.id,[value.bool_answer,value.text_answer]])), { path: '/' });
+  }
+
+  async function fetchDataBasedOnCookie(){
+    const cookieList :[] = cookies.form_names
+    const cookieData = cookieList[cookieList.length-1]
+    if(cookieList.length === 0)
+    {
+      navigate('/')
+      return;
+    }
+    if(cookieData === 'i'){
+      const formData = await apiGet('start')
+
+      const data = formData.data
+      setFormData(data)
+    } 
   }
 
   async function fetchStartData(){
@@ -64,6 +91,8 @@ export const FormPage = () => {
 
   useEffect(() => {
     setVisibleIndex(0);
+    
+    /*
     if (cookies.userStarted == false) {
       setCookie('userStarted', true, { path: '/' });
       fetchStartData();
@@ -71,6 +100,10 @@ export const FormPage = () => {
     else {
       fetchData();
     }
+    */
+   fetchDataBasedOnCookie()
+
+    console.log(cookies.completedDataJSON)
     
   },[location])
   return (
@@ -93,6 +126,7 @@ export const FormPage = () => {
           <Col md={3} key={index}>
             <FormQuestion
               id={index} 
+              question_id={value.id}
               type={FormQuestionType.SHORT_ANSWER}
               description={value.text} 
               isRequired={index === 0} // Only the first question is required initially

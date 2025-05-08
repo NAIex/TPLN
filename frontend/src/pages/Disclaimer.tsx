@@ -9,7 +9,7 @@ export const Disclaimer = () => {
 
     const startQuestionnaire = () => {
         setCookie('userStarted', false, { path: '/' });
-        navigate('/form');
+        navigate('/start-form');
     };
 
 

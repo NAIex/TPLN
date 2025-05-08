@@ -5,6 +5,8 @@ import { LandingPage } from './pages/LandingPage';
 import FadeWrapper from './components/FadeWrapper';
 import { Navbar } from './components/Navbar';
 import { Disclaimer } from './pages/Disclaimer';
+import StartFormPage from './pages/StartFormPage';
+import { FormPageRevamped } from './pages/FormPageRevamped';
 function App() {
   return (
     <Router>
@@ -12,7 +14,8 @@ function App() {
       <FadeWrapper>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/form" element={<FormPage />} />
+        <Route path="/form" element={<FormPageRevamped/>} />
+        <Route path="/start-form" element={<StartFormPage />} />
         <Route path="/disclaimer" element={<Disclaimer />} />
       </Routes>
       </FadeWrapper>
